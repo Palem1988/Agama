@@ -731,9 +731,9 @@ void static BitcoinMiner_noeq(CWallet *pwallet)
 void static BitcoinMiner_noeq()
 #endif
 {
-    LogPrintf("KomodoMiner started\n");
+    LogPrintf("%s miner started\n", ASSETCHAINS_ALGORITHMS[ASSETCHAINS_ALGO]);
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("komodo-miner");
+    RenameThread("verushash-miner");
 
 #ifdef ENABLE_WALLET
     // Each thread has its own key
@@ -754,10 +754,19 @@ void static BitcoinMiner_noeq()
         if ( komodo_baseid(ASSETCHAINS_SYMBOL) < 0 )
             break;
     }
+
+    CBlockIndex* curTip;
+    do {
+        curTip = chainActive.Tip();
+        printf("Verifying block height %d         \r", chainActive.Tip()->nHeight);
+        sleep(2);
+    } while (curTip != chainActive.Tip());
+    printf("Mining height %d\n", chainActive.Tip()->nHeight + 1);
+
     miningTimer.start();
 
     try {
-        fprintf(stderr,"Komodo miner mining %s with %s\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_ALGORITHMS[ASSETCHAINS_ALGO]);
+        fprintf(stderr,"Mining %s with %s\n", ASSETCHAINS_SYMBOL, ASSETCHAINS_ALGORITHMS[ASSETCHAINS_ALGO]);
         while (true)
         {
             if (chainparams.MiningRequiresPeers())
@@ -803,10 +812,11 @@ void static BitcoinMiner_noeq()
             if (!pblocktemplate.get())
             {
                 if (GetArg("-mineraddress", "").empty()) {
-                    LogPrintf("Error in KomodoMiner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
+                    LogPrintf("Error in %s miner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n",
+                              ASSETCHAINS_ALGORITHMS[ASSETCHAINS_ALGO]);
                 } else {
                     // Should never reach here, because -mineraddress validity is checked in init.cpp
-                    LogPrintf("Error in KomodoMiner: Invalid -mineraddress\n");
+                    LogPrintf("Error in %s miner: Invalid %s -mineraddress\n", ASSETCHAINS_ALGORITHMS[ASSETCHAINS_ALGO], ASSETCHAINS_SYMBOL);
                 }
                 return;
             }
@@ -840,9 +850,11 @@ void static BitcoinMiner_noeq()
 
             Mining_start = 0;
 
-            // try again if we're not ready
             if ( pindexPrev != chainActive.Tip() )
-                break;
+            {
+                printf("Block %d added to chain", chainActive.Tip()->nHeight);
+                continue;
+            }
 
             while (true)
             {
@@ -864,7 +876,7 @@ void static BitcoinMiner_noeq()
                         LogPrintf("KomodoMiner using %s algorithm:\n", ASSETCHAINS_ALGORITHMS[ASSETCHAINS_ALGO]);
                         LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
                         printf("Found block %d \n", Mining_height );
-                        printf("mining reward %.8f %s!", (double)subsidy / (double)COIN, ASSETCHAINS_SYMBOL);
+                        printf("mining reward %.8f %s!\n", (double)subsidy / (double)COIN, ASSETCHAINS_SYMBOL);
                         printf("  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex().c_str(), hashTarget.GetHex().c_str());
                         if (unlockTime > Mining_height && subsidy >= ASSETCHAINS_TIMELOCKGTE)
                             printf("- timelocked until block %i\n", unlockTime);
@@ -907,7 +919,7 @@ void static BitcoinMiner_noeq()
 
                 if ((UintToArith256(pblock->nNonce) & mask) == mask)
                 {
-                    fprintf(stderr,"%lu hashes - working\n", ASSETCHAINS_NONCEMASK[ASSETCHAINS_ALGO]);
+                    fprintf(stderr,"%lu khash - working\n", (ASSETCHAINS_NONCEMASK[ASSETCHAINS_ALGO] + 1) / 1024);
                     break;
                 }
 
@@ -919,7 +931,6 @@ void static BitcoinMiner_noeq()
 
                 if ( pindexPrev != chainActive.Tip() )
                 {
-                    fprintf(stderr,"Tip advanced, block %i\n", chainActive.Tip()->nHeight);
                     break;
                 }
 
