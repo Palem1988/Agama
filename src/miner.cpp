@@ -725,6 +725,24 @@ extern int32_t KOMODO_LASTMINED;
 int32_t roundrobin_delay;
 arith_uint256 HASHTarget,HASHTarget_POW;
 
+// wait for peers to connect
+int32_t waitForPeers(const CChainParams &chainparams)
+{
+    if (chainparams.MiningRequiresPeers())
+    {
+        do {
+            bool fvNodesEmpty;
+            {
+                LOCK(cs_vNodes);
+                fvNodesEmpty = vNodes.empty();
+            }
+            if (!fvNodesEmpty )
+                break;
+            MilliSleep(1000);
+        } while (true);
+    }
+}
+
 #ifdef ENABLE_WALLET
 void static BitcoinMiner_noeq(CWallet *pwallet)
 #else
@@ -732,7 +750,6 @@ void static BitcoinMiner_noeq()
 #endif
 {
     LogPrintf("%s miner started\n", ASSETCHAINS_ALGORITHMS[ASSETCHAINS_ALGO]);
-    SetThreadPriority(THREAD_PRIORITY_LOWEST);
     RenameThread("verushash-miner");
 
 #ifdef ENABLE_WALLET
@@ -745,7 +762,6 @@ void static BitcoinMiner_noeq()
     unsigned int nExtraNonce = 0;
     std::vector<unsigned char> solnPlaceholder = std::vector<unsigned char>();
     solnPlaceholder.resize(Eh200_9.SolutionWidth);
-
     uint8_t *script; uint64_t total,checktoshis; int32_t i,j;
 
     while ( (ASSETCHAIN_INIT == 0 || KOMODO_INITDONE == 0) ) //chainActive.Tip()->nHeight != 235300 &&
@@ -755,12 +771,19 @@ void static BitcoinMiner_noeq()
             break;
     }
 
+    // try a nice clean peer connection to start
+    waitForPeers(chainparams);
+    sleep(5);
     CBlockIndex* curTip;
     do {
         curTip = chainActive.Tip();
-        printf("Verifying block height %d         \r", chainActive.Tip()->nHeight);
-        sleep(2);
+        printf("Verifying block height %d         \n", chainActive.Tip()->nHeight);
+        MilliSleep(100 + rand() % 1900);
     } while (curTip != chainActive.Tip());
+
+    SetThreadPriority(THREAD_PRIORITY_LOWEST);
+
+    sleep(5);
     printf("Mining height %d\n", chainActive.Tip()->nHeight + 1);
 
     miningTimer.start();
@@ -852,7 +875,8 @@ void static BitcoinMiner_noeq()
 
             if ( pindexPrev != chainActive.Tip() )
             {
-                printf("Block %d added to chain", chainActive.Tip()->nHeight);
+                printf("Block %d added to chain\n", chainActive.Tip()->nHeight);
+                MilliSleep(250);
                 continue;
             }
 
@@ -919,7 +943,7 @@ void static BitcoinMiner_noeq()
 
                 if ((UintToArith256(pblock->nNonce) & mask) == mask)
                 {
-                    fprintf(stderr,"%lu khash - working\n", (ASSETCHAINS_NONCEMASK[ASSETCHAINS_ALGO] + 1) / 1024);
+                    fprintf(stderr,"%lu mega hashes complete - working\n", (ASSETCHAINS_NONCEMASK[ASSETCHAINS_ALGO] + 1) / 1048576);
                     break;
                 }
 
@@ -931,6 +955,7 @@ void static BitcoinMiner_noeq()
 
                 if ( pindexPrev != chainActive.Tip() )
                 {
+                    printf("Block %d added to chain\n", chainActive.Tip()->nHeight);
                     break;
                 }
 
