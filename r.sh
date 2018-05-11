@@ -1,11 +1,13 @@
 #!/bin/bash
 ./binary_artifacts.sh
-sudo yarn add electron-packager -g
-yarn add electron -g --unsafe-perm=true
-yarn install && yarn add webpack webpack-dashboard
-cd gui/EasyDEX-GUI/
-cd react
-yarn install
-yarn run build
+npm install electron-packager -g || sudo npm install electron-packager -g
+npm install electron -g --unsafe-perm=true
+npm install && npm install webpack webpack-dashboard
+cd gui
+rm -rf EasyDEX-GUI
+git clone -b dev --single-branch https://github.com/VerusCoin/EasyDEX-GUI.git
+cd EasyDEX-GUI/react
+npm install
+npm run build
 cd src
-yarn start
+npm start
