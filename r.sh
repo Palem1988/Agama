@@ -1,5 +1,8 @@
-cd gui/EasyDEX-GUI/react
-npm install
-npm run build
+#!/bin/bash
+cd gui/EasyDEX-GUI/
+yarn install && yarn add webpack webpack-dashboard
+cd react
+yarn install
+yarn run build
 cd src
-npm start
+yarn start
