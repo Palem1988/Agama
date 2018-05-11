@@ -224,7 +224,7 @@ module.exports = (shepherd) => {
                 //resolve(body);
             }
         });
-    }  else if (selection === 'VERUSTEST') {
+    }   else if (selection === 'VERUSTEST') {
         const herdData = {
             'ac_name': 'VERUSTEST',
             'ac_options': [
@@ -239,7 +239,7 @@ module.exports = (shepherd) => {
                 '-addnode=185.25.48.236',
                 '-ac_timelockgte=19200000000',
                 '-ac_timeunlockfrom=200',
-                '-ac_timeunlockto=1600',
+                '-ac_timeunlockto=1000',
                 '-gen',
                 '-genproclimit=4'
             ]
