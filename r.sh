@@ -1,9 +1,9 @@
 #!/bin/bash
 ./binary_artifacts.sh
 sudo yarn add electron-packager -g
-sudo yarn add electron -g --unsafe-perm=true
-cd gui/EasyDEX-GUI/
+yarn add electron -g --unsafe-perm=true
 yarn install && yarn add webpack webpack-dashboard
+cd gui/EasyDEX-GUI/
 cd react
 yarn install
 yarn run build
