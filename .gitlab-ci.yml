@@ -34,9 +34,8 @@ build:linux:
 
 
   script:
-    - npm install electron-packager -g
-    - npm install electron -g --unsafe-perm=true
     - npm install
+    - npm test
     - ./buildscripts/electron-build-linux.sh
     - cd build
     - tar -czf $AGAMA_LINUX_PORTABLE $ELECTRON_BUILD_LINUX
@@ -92,7 +91,6 @@ build:mac:
     
   script: 
     - npm install
-    - npm test
     - npm install electron-packager -g
     - npm install electron -g --unsafe-perm=true
     - ./buildscripts/electron-build-osx.sh
