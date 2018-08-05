@@ -3,7 +3,7 @@ const assert = require('assert')
 const electronPath = require('electron') // Require Electron from the binaries included in node_modules.
 const path = require('path')
 const chai = require('chai')
-const timeout = 7500;
+const timeout = 30000;
 describe('Application launch', function () {
   this.timeout(timeout)
   before(function () {
