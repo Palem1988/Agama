@@ -105,7 +105,7 @@ build:mac:
     
 
 
-.test:
+test:
   stage: test
   image: node:8.11.3
   script:
