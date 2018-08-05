@@ -91,9 +91,10 @@ build:mac:
     - rm $AGAMA_ARTIFACTS_MACOS
     
   script: 
+    - npm install
+    - npm test
     - npm install electron-packager -g
     - npm install electron -g --unsafe-perm=true
-    - npm install
     - ./buildscripts/electron-build-osx.sh
     - cd build
     - tar -czf $AGAMA_OSX_PORTABLE $ELECTRON_BUILD_OSX
@@ -103,14 +104,6 @@ build:mac:
     - $AGAMA_OSX_PORTABLE
     expire_in: 1 week
     
-
-
-test:
-  stage: test
-  image: node:8.11.3
-  script:
-    - npm install
-    - npm test
 
 
 deploy:

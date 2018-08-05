@@ -47,7 +47,6 @@ describe('Application launch', function () {
   it('delays for a bit', function() {
     return new Promise(function(resolve) {
       setTimeout(resolve, 500, true);
-    });
   })
 
   it('has VRSC in the HTML body', function(done) {
