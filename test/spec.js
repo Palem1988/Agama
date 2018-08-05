@@ -45,16 +45,15 @@ describe('Application launch', function () {
   })
 
   it('delays for a bit', function() {
-    return new Promise(function(resolve) {
-      setTimeout(resolve, 500, true);
+      return new Promise(function (resolve) {
+          setTimeout(resolve, 500, true);
+      })
   })
 
   it('has VRSC in the HTML body', function(done) {
     this.app.client.getHTML('body').then(function (html) {
       assert(html.includes('VRSC'), 'Did not find VRSC coin')
       done()
-      return true
     })
   })
 })
-
