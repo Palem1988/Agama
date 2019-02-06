@@ -87,8 +87,7 @@
     },
     "win": {
       "target": [
-        "nsis",
-        "appx"
+        "nsis"
       ],
       "icon": "assets/icons/agama_app_icon.ico"
     }
