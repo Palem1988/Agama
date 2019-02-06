@@ -8,7 +8,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir agama-unpacked",
     "dist": "electron-builder publish=never ",
-    "dist-win": "electron-builder publish=never--win",
+    "dist-win": "electron-builder publish=never --win",
     "test": "mocha"
   },
   "repository": "https://github.com/KomodoPlatform/Agama/",
