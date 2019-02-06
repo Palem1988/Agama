@@ -1,0 +1,6 @@
+[Desktop Entry]
+	Name=Agama
+	Exec=agama
+	Icon="assets/icons/agama_app_icon.ico"
+	Type=Application
+	Categories=GTK;GNOME;Utility;

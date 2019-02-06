@@ -7,9 +7,11 @@ stages:
 ########################################################################################################################
 variables:
   DOCKER_DRIVER: overlay2
-  DEFAULT_VERUSCOIN_BRANCH: ${CI_COMMIT_REF_NAME}
-  DEFAULT_EASYDEXGUI_BRANCH: ${CI_COMMIT_REF_NAME}
-  AGAMA_VERSION: 0.5.5b
+  DEFAULT_VERUSCOIN_BRANCH: master
+  ##${CI_COMMIT_REF_NAME}
+  DEFAULT_EASYDEXGUI_BRANCH: master
+  ##${CI_COMMIT_REF_NAME}
+  AGAMA_VERSION: 0.5.6
   VERUSCOIN_VERSION: 0.5.5b
   KOMODO_VERSION: 0.3.3b-beta
   BINARY_SOURCE: VerusCoin
@@ -65,25 +67,24 @@ build:linux:
 #  - rm  komodo_linux_${KOMODO_VERSION}.tar.gz
   - rm komodo_linux_beta_0.3.3b.tar.gz
   - rm -rf __MACOSX
-  - npm install electron-packager -g
-  - npm install electron -g --unsafe-perm=true
-  - npm install
+  - yarn install
   script:
-  - npm run package-linux
-  - cd build
-  - tar -czf ${AGAMA_LINUX} $ELECTRON_BUILD_LINUX
-  - sha256sum ${AGAMA_LINUX} > ${AGAMA_LINUX}.sha256
-  - mv $AGAMA_LINUX ${AGAMA_LINUX}.sha256 ..
+  - npm run dist
+ # - cd dist
+  #- tar -czf ${AGAMA_LINUX} $ELECTRON_BUILD_LINUX
+ # - sha256sum ${AGAMA_LINUX} > ${AGAMA_LINUX}.sha256
+ # - mv $AGAMA_LINUX ${AGAMA_LINUX}.sha256 ..
   after_script:
-  - curl -F file=@"$AGAMA_LINUX"
-      -F channels="$AGAMA_POST_CHANNEL"
-      -F initial_comment="${POST_COMMENT}"
-      -H "${SLACK_BOT_AUTH}"
-      "https://slack.com/api/files.upload"
+ # - curl -F file=@"$AGAMA_LINUX"
+  #    -F channels="$AGAMA_POST_CHANNEL"
+  #    -F initial_comment="${POST_COMMENT}"
+  #    -H "${SLACK_BOT_AUTH}"
+  #    "https://slack.com/api/files.upload"
   artifacts:
     paths:
-    - ${AGAMA_LINUX}
-    - ${AGAMA_LINUX}.sha256
+      - dist
+    #- ${AGAMA_LINUX}
+    #- ${AGAMA_LINUX}.sha256
     expire_in: 1 week
 ########################################################################################################################
 ####END####                                              LINUX                                               ####END####
@@ -123,25 +124,24 @@ build:windows:
   - rm komodo_windows_beta_0.3.3.zip
   - rm -rf __MACOSX
   - rm -rf komodo_win_${KOMODO_VERSION}
-  - npm install electron-packager -g
-  - npm install electron -g --unsafe-perm=true
-  - npm install
+  - yarn install
   script:
-  - npm run package-win
-  - cd build
-  - zip -r ${AGAMA_WINDOWS} $ELECTRON_BUILD_WINDOWS
-  - sha256sum ${AGAMA_WINDOWS} > ${AGAMA_WINDOWS}.sha256
-  - mv $AGAMA_WINDOWS ${AGAMA_WINDOWS}.sha256 ..
+  - npm run dist-win
+  #- cd build
+  #- zip -r ${AGAMA_WINDOWS} $ELECTRON_BUILD_WINDOWS
+ # - sha256sum ${AGAMA_WINDOWS} > ${AGAMA_WINDOWS}.sha256
+ # - mv $AGAMA_WINDOWS ${AGAMA_WINDOWS}.sha256 ..
   after_script:
-  - curl -F file=@"$AGAMA_WINDOWS"
-      -F channels="$AGAMA_POST_CHANNEL"
-      -F initial_comment="${POST_COMMENT}"
-      -H "${SLACK_BOT_AUTH}"
-      "https://slack.com/api/files.upload"
+#  - curl -F file=@"$AGAMA_WINDOWS"
+ #     -F channels="$AGAMA_POST_CHANNEL"
+#      -F initial_comment="${POST_COMMENT}"
+ #     -H "${SLACK_BOT_AUTH}"
+ #     "https://slack.com/api/files.upload"
   artifacts:
     paths:
-    - ${AGAMA_WINDOWS}
-    - ${AGAMA_WINDOWS}.sha256
+      - dist
+    #- ${AGAMA_WINDOWS}
+    #- ${AGAMA_WINDOWS}.sha256
     expire_in: 1 week
 ########################################################################################################################
 ####END####                                             WINDOWS                                              ####END####
@@ -172,26 +172,26 @@ build:mac:
   - rm Verus-CLI-MacOS-v${VERUSCOIN_VERSION}.tar.gz
  # - rm komodo_osx_${KOMODO_VERSION}.tar.gz
   - rm komodo_osx_beta_0.3.3b.tar.gz
-  - npm install
-  - npm install electron-packager -g
+  - yarn install
   script:
-  - npm run package-mac
-  - npm run create-installer-mac
-  - shasum -a 256 ${AGAMA_MACOS}.dmg > ${AGAMA_MACOS}.dmg.sha256
-  after_script:
-  - curl -F file=@"${AGAMA_MACOS}.dmg"
-      -F channels="${AGAMA_POST_CHANNEL}"
-      -F initial_comment="${POST_COMMENT}"
-      -H "${SLACK_BOT_AUTH}"
-      "https://slack.com/api/files.upload"
+  - npm run dist
+ # - npm run create-installer-mac
+ # - shasum -a 256 ${AGAMA_MACOS}.dmg > ${AGAMA_MACOS}.dmg.sha256
+ # after_script:
+ # - curl -F file=@"${AGAMA_MACOS}.dmg"
+ #     -F channels="${AGAMA_POST_CHANNEL}"
+ #     -F initial_comment="${POST_COMMENT}"
+ #     -H "${SLACK_BOT_AUTH}"
+ #     "https://slack.com/api/files.upload"
   artifacts:
     paths:
-    - ${AGAMA_MACOS}.dmg
-    - ${AGAMA_MACOS}.dmg.sha256
+      - dist
+    # - ${AGAMA_MACOS}.dmg
+    # - ${AGAMA_MACOS}.dmg.sha256
     expire_in: 1 week
 
 
-deploy:
+.deploy:
   stage: deploy
   image: google/cloud-sdk:alpine
   dependencies:
@@ -210,12 +210,12 @@ deploy:
   - gsutil rsync -r $CI_COMMIT_REF_NAME $STAGING/Agama/$CI_COMMIT_REF_NAME/
   artifacts:
     paths:
-    - ${AGAMA_LINUX}
-    - ${AGAMA_LINUX}.sha256
-    - ${AGAMA_WINDOWS}
-    - ${AGAMA_WINDOWS}.sha256
-    - ${AGAMA_MACOS}.dmg
-    - ${AGAMA_MACOS}.dmg.sha256
+  #   - ${AGAMA_LINUX}
+  #   - ${AGAMA_LINUX}.sha256
+  #   - ${AGAMA_WINDOWS}
+  #   - ${AGAMA_WINDOWS}.sha256
+  #   - ${AGAMA_MACOS}.dmg
+  #   - ${AGAMA_MACOS}.dmg.sha256
     expire_in: 1 week
 
 

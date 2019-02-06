@@ -1,19 +1,15 @@
 {
-  "name": "agama-app",
+  "name": "Agama",
   "productName": "Agama",
-  "version": "0.5.5b",
-  "description": "Agama Wallet Desktop App",
+  "version": "0.5.6",
+  "description": "Verus-Enhanced Agama Wallet Desktop App",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "make-patch": "./make-patch.sh",
-    "make-rpm": "node make-rpm.js",
-    "make-deb": "node make-deb.js",
-    "test": "mocha",
-    "package-linux": "./buildscripts/electron-build-linux.sh",
-    "package-mac": "./buildscripts/electron-build-osx.sh",
-    "package-win": "./buildscripts/electron-build-windows.sh",
-    "create-installer-mac": "electron-installer-dmg build/$ELECTRON_BUILD_MACOS/Agama.app $AGAMA_MACOS --icon=assets/icons/agama_icons/agama_app_icon.icns"
+    "pack": "electron-builder --dir agama-unpacked",
+    "dist": "electron-builder ",
+    "dist-win": "build --win",
+    "test": "mocha"
   },
   "repository": "https://github.com/KomodoPlatform/Agama/",
   "homepage": "http://komodoplatform.com",
@@ -24,19 +20,78 @@
     "multicoin",
     "wallet",
     "spv",
-    "jumblr",
-    "VRSC",
-    "veruscoin"
+    "jumblr"
   ],
-  "author": "SuperNET Team",
+  "author": {
+    "name": "Komodo Platform Team",
+    "email": "info@komodoplatform.com",
+    "url": "https://komodoplatform.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
-    "electron": "^2.0.8",
+    "electron": "^4.0.4",
+    "electron-builder": "^20.38.5",
     "jquery": "^3.3.1",
     "mocha": "^5.2.0",
     "spectron": "^3.8.0"
+  },
+  "build": {
+    "appId": "Agama",
+    "files": [
+      "**/*",
+      "!buildscripts${/*}",
+      "!test${/*}",
+      "!windeps${/*}",
+      "!.git*",
+      "!Brewfile",
+      "!README.md",
+      "!make*",
+      "!check_submodule.sh",
+      "!gui/EasyDEX/react/node_modules${/*}",
+      "!gui/EasyDEX/react/src${/*}",
+      "!gui/EasyDEX/react/www${/*}"
+    ],
+    "dmg": {
+      "icon": "assets/icons/agama_icons/agama_app_icon.icns",
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "icon": "assets/icons/agama_icons/256x256.png",
+      "desktop": "assets/deb/agama.desktop",
+      "target": [
+        "AppImage",
+        "deb",
+        "tar.gz",
+        "snap"
+      ]
+    },
+    "deb": {
+      "depends": [
+        "libgomp1",
+        "libcurl4-openssl-dev",
+        "libgconf2-4"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "appx"
+      ],
+      "icon": "assets/icons/agama_app_icon.ico"
+    }
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
@@ -54,8 +109,6 @@
     "body-parser": "^1.15.2",
     "buffer-reverse": "^1.0.1",
     "coinselect": "github:bitcoinjs/coinselect",
-    "electron-installer-debian": "^0.8.1",
-    "electron-packager": "^12.1.0",
     "express": "^4.14.0",
     "fix-path": "^2.1.0",
     "fs-extra": "^4.0.2",
