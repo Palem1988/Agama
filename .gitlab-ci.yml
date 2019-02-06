@@ -69,7 +69,7 @@ build:linux:
   - rm -rf __MACOSX
   - yarn install
   script:
-  - npm run dist
+  - yarn run dist
  # - cd dist
   #- tar -czf ${AGAMA_LINUX} $ELECTRON_BUILD_LINUX
  # - sha256sum ${AGAMA_LINUX} > ${AGAMA_LINUX}.sha256
@@ -126,7 +126,7 @@ build:windows:
   - rm -rf komodo_win_${KOMODO_VERSION}
   - yarn install
   script:
-  - npm run dist-win
+  - yarn run dist-win
   #- cd build
   #- zip -r ${AGAMA_WINDOWS} $ELECTRON_BUILD_WINDOWS
  # - sha256sum ${AGAMA_WINDOWS} > ${AGAMA_WINDOWS}.sha256
@@ -174,7 +174,7 @@ build:mac:
   - rm komodo_osx_beta_0.3.3b.tar.gz
   - yarn install
   script:
-  - npm run dist
+  - yarn run dist
  # - npm run create-installer-mac
  # - shasum -a 256 ${AGAMA_MACOS}.dmg > ${AGAMA_MACOS}.dmg.sha256
  # after_script:
