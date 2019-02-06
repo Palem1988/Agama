@@ -7,8 +7,8 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir agama-unpacked",
-    "dist": "electron-builder publish=never ",
-    "dist-win": "electron-builder publish=never --win",
+    "dist": "electron-builder  ",
+    "dist-win": "electron-builder  --win",
     "test": "mocha"
   },
   "repository": "https://github.com/KomodoPlatform/Agama/",
@@ -38,6 +38,7 @@
     "spectron": "^3.8.0"
   },
   "build": {
+    "publish": "never",
     "appId": "Agama",
     "files": [
       "**/*",
