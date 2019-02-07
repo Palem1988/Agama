@@ -103,14 +103,14 @@ const appConfig = {
       displayName: 'Automatically start staking VerusCoin when it is launched in native mode',
       type: 'boolean',
     },
-    /*
+
     darkMode: {
       display: true,
       initDisplay: true,
       displayName: 'Change UI to dark mode',
       type: 'boolean',
     },
-    */
+
     stakeGuard: {
       display: true,
       info: 'As part of the VerusCoin Something at Stake solution, you can enter a Verus sapling address in this field, and receive awards for finding double-stakers',

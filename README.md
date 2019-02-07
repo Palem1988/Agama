@@ -7,30 +7,7 @@ This project uses [EasyDEX-GUI](https://github.com/VerusCoin/EasyDEX-GUI), a Rea
 Check [the VerusCoin github Wiki](https://github.com/VerusCoin/VerusCoin/wiki) for useful information about operating the wallet.
 Also [check the Discord commnity](https://discordapp.com/channels/444621794964537354/449633547343495172)
 
-This version adds portable VerusHash support for Linux. It was tested against Ubuntu LTS 16 & 18.
-Version 0.3.13c Integrates the Electrum Server and Verus lite support
-Version 0.3.13b fixed balance verification on send.
-Version 0.3.13a fixes an error in limiting transactions that can cause the GUI to complain that there are not enough funds to send a transaction when funds are sufficient and 
-the list display showing incorrect blocks to maturity in some views.
-Version 0.3.13 Introduced the ability to filter through transactions, added the option
-to automatically load VRSC on startup, added a blocktype display in transaction info, 
-fixed a bug where not all private transactions are shown, optimized the mining button, 
-fixed a bug where the send all button would cause failed transactions, and fixed the 
-search box
-Version 0.3.12a fixes bugs in search function and mining button under Verus 
-Version 0.3.12 fixes some portable miner issues
-Version 0.3.11 introduced updates for unlocked era
-Version 0.3.9 added better Mac integration & was tested against Mac OSX Sierra 10.12.6 and Mac OSX 10.13.5 High Sierra. There are no prerequisites for the Mac now, download the .dmg from the VerusCoin web site, click to mount it, and launch the Agama icon from the mounted drive on your desktop.
-
-#### For Developers
-You must have `node.js` and `npm` installed on your machine.
-
-Check versions:
-nodejs --version
-v8.9.4
-
-Easy-DEX-GUI is quite sensitive to the node version. 9.x fails for me, and older versions do as well. Make sure you're on 8.9.x. Installing nvm is probably a good idea, especially if you already have node installed but it is not a compatible version.
-
+[Yarn](http://yarnpkg.com/) is [strongly](https://github.com/electron-userland/electron-builder/issues/1147#issuecomment-276284477) recommended instead of npm.
 Other essential dependencies:
 sudo apt-get install -y build-essential
 
@@ -52,35 +29,30 @@ For Mac use ./binary_artifacts_mac.sh.
 Note that we do not use the standard downloadable komodo executables, the version in VerusCoin/VerusCoin has to be used and the src/komodod and src/komodo-cli build outputs have to be manually patched into assets/bin/osx.
 3) install the electron packager and prebuilt - note the ugly unsafe-perm for the electron-prebuilt.
 ```shell
-sudo npm install electron-packager -g
-npm install electron-prebuilt -g --unsafe-perm=true
+sudo yarn add electron-builder --save-dev
+yarn add electron-prebuilt -g --unsafe-perm=true
 ```
 4) get webpack dependencies into place for the react stuff
 ```shell
-npm install
+yarn install
 ```
 5) If you are running in dev mode, get the react back end stuff installed and running
 ```shell
 cd react
-npm install
+yarn install
 cd src
-npm start
+yarn start
 ```
 Brings up the dashboard and loads the react service using localhost:3000. Since that ties this shell up, you'll need to spin up another shell to continue.
 6) Go back to the react dir and build things (the EasyDEX-GUI)
 ```shell
 cd agama/gui/EasyDEX-GUI/react
-npm run build
+yarn run build
 ```
-7) Get the top level stuff set, after the cd you should be in the root agama dir. We also need electron, again with the nasty souding unsafe-perm and allow-root options, otherwise electron post install steps fail. Similarly, we need to get libgconf and webpack too.
-```shell
-cd ../../..
-npm install webpack
-npm install
-```
+
 8) At this point you can test things by running the wallet directly from electron:
 ```shell
-npm start
+yarn start
 ```
 This is a pretty wrapper around electron. I set the environment to production too.
 
@@ -103,8 +75,7 @@ Coin info is for Verus is stored under ~/Library/Application\ Support/Komodo/VRS
 In dev mode backend is configured to send/receive messages from/to http://127.0.0.1:3000 address. If you open it as http://localhost:3000 sockets server will reject any messages. In non dev mode the service is launched internally and everything operates normally.
 
 #### **Build the Wallet-App**
-Refer to the original [electron-packager](https://github.com/electron-userland/electron-packager) repository for more detailed information.
-Fairly useless advice
+Refer to the original [electron-builder](https://github.com/electron-userland/electron-builder) repository for more detailed information.
 
 ##### Linux
 Change directory to agama and execute the following command to build the Linux app
