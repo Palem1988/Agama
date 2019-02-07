@@ -37,7 +37,7 @@ variables:
 ########################################################################################################################
 ####START####                                            LINUX                                             ####START####
 ########################################################################################################################
-build:linux:
+.build:linux:
   image: asherd/agama-builder
   stage: build
   before_script:
@@ -96,7 +96,7 @@ build:windows:
   stage: build
   image: ubuntu:bionic
   before_script:
-    - apt update && apt install -y curl lsb-release gnupg
+    - apt update && apt install -y curl lsb-release gnupg  software-properties-common
     - export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
     - echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
     - curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
