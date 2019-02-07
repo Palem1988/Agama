@@ -28,15 +28,6 @@
     "url": "https://komodoplatform.com"
   },
   "license": "MIT",
-  "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-as-promised": "^7.1.1",
-    "electron": "^4.0.4",
-    "electron-builder": "^20.38.5",
-    "jquery": "^3.3.1",
-    "mocha": "^5.2.0",
-    "spectron": "^3.8.0"
-  },
   "build": {
     "appId": "Agama",
     "files": [
@@ -53,16 +44,26 @@
       "!gui/EasyDEX/react/src${/*}",
       "!gui/EasyDEX/react/www${/*}"
     ],
+    "mac": {
+      "icon": "assets/icons/agama_icons/agama_app_icon.icns",
+      "target": [
+        "dmg",
+        "mas",
+        "mas-dev",
+        "pkg"
+      ]
+    },
     "dmg": {
+      "background": "assets/backgrounds/trianglify-8.png",
       "icon": "assets/icons/agama_icons/agama_app_icon.icns",
       "contents": [
         {
-          "x": 110,
-          "y": 150
+          "x": 192,
+          "y": 344
         },
         {
-          "x": 240,
-          "y": 150,
+          "x": 448,
+          "y": 344,
           "type": "link",
           "path": "/Applications"
         }
@@ -87,10 +88,23 @@
     },
     "win": {
       "target": [
-        "nsis"
+        "nsis",
+        "portable",
+        "msi",
+        "squirell"
       ],
       "icon": "assets/icons/agama_app_icon.ico"
     }
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "electron": "^4.0.4",
+    "electron-builder": "^20.38.5",
+    "electron-builder-squirrel-windows": "^20.38.5",
+    "jquery": "^3.3.1",
+    "mocha": "^5.2.0",
+    "spectron": "^3.8.0"
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
