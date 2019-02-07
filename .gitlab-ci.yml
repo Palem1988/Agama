@@ -105,7 +105,7 @@ build:windows:
     - echo "deb https://dl.yarnpkg.com/debian/ stable main" |  tee /etc/apt/sources.list.d/yarn.list
     - wget -nc https://dl.winehq.org/wine-builds/winehq.key
     - apt-key add winehq.key
-    - apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ && apt update
+    - apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/' && apt update
     - dpkg --add-architecture i386
     - apt-get install nodejs winehq-devel winetricks  yarn  google-cloud-sdk -y
     - echo "$AUTH_KEY" > AUTH_KEY.json &&
