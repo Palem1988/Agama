@@ -37,7 +37,7 @@ variables:
 ########################################################################################################################
 ####START####                                            LINUX                                             ####START####
 ########################################################################################################################
-build:linux:
+.build:linux:
   image: asherd/agama-builder
   stage: build
   before_script:
@@ -97,6 +97,7 @@ build:windows:
   image: ubuntu:bionic
   before_script:
     - apt update && apt install -y curl lsb-release gnupg  software-properties-common wget git
+    - curl -sL https://deb.nodesource.com/setup_10.x | -E bash -
     - export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
     - echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
     - curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
@@ -105,7 +106,7 @@ build:windows:
     - wget https://dl.winehq.org/wine-builds/Release.key
     - apt-key add Release.key
     - apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/' && apt update
-    - apt-get install wine-development winetricks  yarn  google-cloud-sdk -y
+    - apt-get install nodejs wine-development winetricks  yarn  google-cloud-sdk -y
     - echo "$AUTH_KEY" > AUTH_KEY.json &&
       gcloud auth activate-service-account
       --key-file AUTH_KEY.json &&
