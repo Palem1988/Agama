@@ -96,9 +96,9 @@ build:windows:
   stage: build
   image: asherd/agama-builder:windows
   before_script:
-    - apt-get remove --purge wine
+    - apt-get remove --purge wine -y
     - add-apt-repository ppa:ubuntu-wine/ppa && apt-get update
-    - apt-get install wine1.7 wine-mono4.5.4
+    - apt-get install wine1.7 wine-mono4.5.4 -y
     - echo "$AUTH_KEY" > AUTH_KEY.json &&
       gcloud auth activate-service-account
       --key-file AUTH_KEY.json &&
