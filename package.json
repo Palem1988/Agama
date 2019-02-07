@@ -70,10 +70,9 @@
       ]
     },
     "linux": {
-      "icon": "assets/icons/agama_icons/256x256.png",
+      "icon": "resources/app.asar.unpacked/assets/icons/agama_icons/256x256.png",
       "desktop": {
         "Encoding": "UTF-8",
-        "icon": "assets/icons/agama_icons/256x256.png"
       },
       "target": [
         "AppImage",
