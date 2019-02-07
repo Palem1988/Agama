@@ -48,8 +48,6 @@
       "icon": "assets/icons/agama_icons/agama_app_icon.icns",
       "target": [
         "dmg",
-        "mas",
-        "mas-dev",
         "pkg"
       ]
     },
@@ -91,7 +89,7 @@
         "nsis",
         "portable",
         "msi",
-        "squirell"
+        "squirrel"
       ],
       "icon": "assets/icons/agama_app_icon.ico"
     }
