@@ -79,6 +79,7 @@
       "target": [
         "deb",
         "tar.gz",
+        "appimage",
         "snap"
       ]
     },
@@ -92,9 +93,7 @@
     "win": {
       "target": [
         "nsis",
-        "portable",
-        "msi",
-        "squirrel"
+        "portable"
       ],
       "icon": "assets/icons/agama_app_icon.ico"
     }

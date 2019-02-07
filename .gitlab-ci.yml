@@ -37,7 +37,7 @@ variables:
 ########################################################################################################################
 ####START####                                            LINUX                                             ####START####
 ########################################################################################################################
-.build:linux:
+build:linux:
   image: asherd/agama-builder
   stage: build
   before_script:
@@ -108,8 +108,6 @@ build:windows:
     - apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
     - dpkg --add-architecture i386
     - apt-get update && apt-get install nodejs winehq-devel winetricks  yarn  google-cloud-sdk -y
-    - wget https://dl.winehq.org/wine/wine-mono/4.7.5/wine-mono-4.7.5.msi
-    - wine msiexec /i wine_gecko-2.47-x86_64.msi --silent
     - echo "$AUTH_KEY" > AUTH_KEY.json &&
       gcloud auth activate-service-account
       --key-file AUTH_KEY.json &&
