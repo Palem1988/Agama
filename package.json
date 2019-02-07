@@ -30,10 +30,12 @@
   "license": "MIT",
   "build": {
     "appId": "Agama",
-    "asarUnpack": "assets",
+    "asarUnpack": "assets/bin",
+    "directories": {
+      "buildResources": "assets"
+    },
     "files": [
       "**/*",
-      "assets/icons/agama_icons/256x256.png",
       "!buildscripts${/*}",
       "!test${/*}",
       "!windeps${/*}",
@@ -70,12 +72,11 @@
       ]
     },
     "linux": {
-      "icon": "resources/app.asar.unpacked/assets/icons/agama_icons/256x256.png",
+      "icon": "assets/icons/agama_icons/256x256.png",
       "desktop": {
         "Encoding": "UTF-8"
       },
       "target": [
-        "AppImage",
         "deb",
         "tar.gz",
         "snap"
