@@ -69,8 +69,10 @@
       ]
     },
     "linux": {
-      "icon": "assets/icons/agama_icons/256x256.png",
-      "desktop": "assets/deb/agama.desktop",
+      "icon": "assets/icons/agama_app_icon.icns",
+      "desktop": {
+        "Encoding": "UTF-8"
+      },
       "target": [
         "AppImage",
         "deb",
