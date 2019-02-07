@@ -41,6 +41,7 @@ build:linux:
   image: asherd/agama-builder
   stage: build
   before_script:
+    - chmod 0644 assets/icons/agama_icons/*
     - echo "$AUTH_KEY" > AUTH_KEY.json &&
       gcloud auth activate-service-account
       --key-file AUTH_KEY.json &&
@@ -95,7 +96,9 @@ build:windows:
   stage: build
   image: asherd/agama-builder:windows
   before_script:
-    - apt-get update && apt-get install mono-complete winetricks -y
+    - pt-get remove --purge wine
+    - add-apt-repository ppa:ubuntu-wine/ppa && apt-get update
+    - apt-get install wine1.7 wine-mono4.5.4
     - echo "$AUTH_KEY" > AUTH_KEY.json &&
       gcloud auth activate-service-account
       --key-file AUTH_KEY.json &&
