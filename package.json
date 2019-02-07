@@ -30,6 +30,7 @@
   "license": "MIT",
   "build": {
     "appId": "Agama",
+    "asar": { "unpackDir": "assets" },
     "files": [
       "**/*",
       "assets/icons/agama_icons/256x256.png",
@@ -71,7 +72,8 @@
     "linux": {
       "icon": "assets/icons/agama_icons/256x256.png",
       "desktop": {
-        "Encoding": "UTF-8"
+        "Encoding": "UTF-8",
+        "icon": "assets/icons/agama_icons/256x256.png"
       },
       "target": [
         "AppImage",
