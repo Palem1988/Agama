@@ -30,7 +30,7 @@
   "license": "MIT",
   "build": {
     "appId": "Agama",
-    "asarUnpack": "assets",
+    "asarUnpack": "assets/bin",
     "directories": {
       "buildResources": "assets"
     },
@@ -72,7 +72,7 @@
       ]
     },
     "linux": {
-      "icon": "assets/icons/agama_icons/256x256.png",
+      "icon": "assets/icons/agama_icons",
       "desktop": {
         "Encoding": "UTF-8"
       },
@@ -102,9 +102,9 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
-    "electron": "^4.0.4",
+    "electron": "4.0.4",
     "electron-builder": "^20.38.5",
-    "electron-builder-squirrel-windows": "^20.38.5",
+    "electron-builder-squirrel-windows": "20.38.5",
     "jquery": "^3.3.1",
     "mocha": "^5.2.0",
     "spectron": "^3.8.0"
