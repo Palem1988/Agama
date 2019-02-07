@@ -30,7 +30,7 @@
   "license": "MIT",
   "build": {
     "appId": "Agama",
-    "asar": { "unpackDir": "assets" },
+    "asarUnpack": "assets",
     "files": [
       "**/*",
       "assets/icons/agama_icons/256x256.png",
