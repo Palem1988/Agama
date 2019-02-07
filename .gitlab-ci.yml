@@ -41,35 +41,35 @@ build:linux:
   image: asherd/agama-builder
   stage: build
   before_script:
-  - echo "$AUTH_KEY" > AUTH_KEY.json &&
-    gcloud auth activate-service-account
-    --key-file AUTH_KEY.json &&
-    rm AUTH_KEY.json
-  - if [ ${CI_COMMIT_REF_NAME} = "MichaelF-Dev" ]; then export BINARY_SOURCE="Komodo"; fi
-  - if [ -z "${UPSTREAM_CLI_BRANCH}" ]; then export
-    VERUS_CLI_LINUX="${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH}/Linux/Verus-CLI-Linux-v${VERUSCOIN_VERSION}.tar.gz"
-    POST_COMMENT="${POST_COMMENT}Using ${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH} binaries.";
-    else
-    export POST_COMMENT="${POST_COMMENT}Using ${UPSTREAM_TRIGGER}/${UPSTREAM_CLI_BRANCH} binaries."; fi
-  - gsutil cp $STAGING/EasyDEX-GUI/master/$EASYDEX_GUI_BUILD .
-  - tar -xzf $EASYDEX_GUI_BUILD --directory gui/EasyDEX-GUI/react && rm ${EASYDEX_GUI_BUILD}
-  - gsutil cp $STAGING/$VERUS_CLI_LINUX .
-  - mkdir -p assets/bin/linux64/verusd
-  - tar -xzvf Verus-CLI-Linux-v${VERUSCOIN_VERSION}.tar.gz --strip=1 --directory assets/bin/linux64/verusd
-  - rm assets/bin/linux64/verusd/verusd
-  - mv assets/bin/linux64/verusd/komodod assets/bin/linux64/verusd/verusd
-  #- wget https://github.com/KomodoPlatform/komodo/releases/download/master-multios-${KOMODO_VERSION}/komodo_linux_${KOMODO_VERSION}.tar.gz
-  -  wget https://github.com/KomodoPlatform/komodo/releases/download/beta-multios-0.3.3b-beta/komodo_linux_beta_0.3.3b.tar.gz
-#  - tar -xvfz komodo_linux_${KOMODO_VERSION}.tar.gz --strip=1 --directory assets/bin/linux64
-  - tar -xzvf komodo_linux_beta_0.3.3b.tar.gz --strip=1 --directory assets/bin/linux64
-  - strip -g  assets/bin/linux64/komodod && strip -g  assets/bin/linux64/komodo-cli
-  - rm Verus-CLI-Linux-v${VERUSCOIN_VERSION}.tar.gz
-#  - rm  komodo_linux_${KOMODO_VERSION}.tar.gz
-  - rm komodo_linux_beta_0.3.3b.tar.gz
-  - rm -rf __MACOSX
-  - yarn install
+    - echo "$AUTH_KEY" > AUTH_KEY.json &&
+      gcloud auth activate-service-account
+      --key-file AUTH_KEY.json &&
+      rm AUTH_KEY.json
+    - if [ ${CI_COMMIT_REF_NAME} = "MichaelF-Dev" ]; then export BINARY_SOURCE="Komodo"; fi
+    - if [ -z "${UPSTREAM_CLI_BRANCH}" ]; then export
+      VERUS_CLI_LINUX="${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH}/Linux/Verus-CLI-Linux-v${VERUSCOIN_VERSION}.tar.gz"
+      POST_COMMENT="${POST_COMMENT}Using ${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH} binaries.";
+      else
+      export POST_COMMENT="${POST_COMMENT}Using ${UPSTREAM_TRIGGER}/${UPSTREAM_CLI_BRANCH} binaries."; fi
+    - gsutil cp $STAGING/EasyDEX-GUI/master/$EASYDEX_GUI_BUILD .
+    - tar -xzf $EASYDEX_GUI_BUILD --directory gui/EasyDEX-GUI/react && rm ${EASYDEX_GUI_BUILD}
+    - gsutil cp $STAGING/$VERUS_CLI_LINUX .
+    - mkdir -p assets/bin/linux64/verusd
+    - tar -xzvf Verus-CLI-Linux-v${VERUSCOIN_VERSION}.tar.gz --strip=1 --directory assets/bin/linux64/verusd
+    - rm assets/bin/linux64/verusd/verusd
+    - mv assets/bin/linux64/verusd/komodod assets/bin/linux64/verusd/verusd
+    #- wget https://github.com/KomodoPlatform/komodo/releases/download/master-multios-${KOMODO_VERSION}/komodo_linux_${KOMODO_VERSION}.tar.gz
+    -  wget https://github.com/KomodoPlatform/komodo/releases/download/beta-multios-0.3.3b-beta/komodo_linux_beta_0.3.3b.tar.gz
+  #  - tar -xvfz komodo_linux_${KOMODO_VERSION}.tar.gz --strip=1 --directory assets/bin/linux64
+    - tar -xzvf komodo_linux_beta_0.3.3b.tar.gz --strip=1 --directory assets/bin/linux64
+    - strip -g  assets/bin/linux64/komodod && strip -g  assets/bin/linux64/komodo-cli
+    - rm Verus-CLI-Linux-v${VERUSCOIN_VERSION}.tar.gz
+  #  - rm  komodo_linux_${KOMODO_VERSION}.tar.gz
+    - rm komodo_linux_beta_0.3.3b.tar.gz
+    - rm -rf __MACOSX
+    - yarn install
   script:
-  - yarn run dist
+    - yarn run dist
  # - cd dist
   #- tar -czf ${AGAMA_LINUX} $ELECTRON_BUILD_LINUX
  # - sha256sum ${AGAMA_LINUX} > ${AGAMA_LINUX}.sha256
@@ -95,36 +95,37 @@ build:windows:
   stage: build
   image: asherd/agama-builder:windows
   before_script:
-  - echo "$AUTH_KEY" > AUTH_KEY.json &&
-    gcloud auth activate-service-account
-    --key-file AUTH_KEY.json &&
-    rm AUTH_KEY.json
-  - if [ ${CI_COMMIT_REF_NAME} = "MichaelF-Dev" ]; then export BINARY_SOURCE="Komodo"; fi
-  - if [ -z "${UPSTREAM_CLI_BRANCH}" ]; then export
-    VERUS_CLI_WINDOWS="${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH}/Windows/Verus-CLI-Windows-v${VERUSCOIN_VERSION}.zip"
-    POST_COMMENT="${POST_COMMENT}Using ${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH} binaries.";
-    else
-    export POST_COMMENT="${POST_COMMENT}Using ${UPSTREAM_TRIGGER}/${UPSTREAM_CLI_BRANCH} binaries."; fi
-  - gsutil cp $STAGING/EasyDEX-GUI/master/$EASYDEX_GUI_BUILD .
-  - tar -xzf $EASYDEX_GUI_BUILD --directory gui/EasyDEX-GUI/react && rm $EASYDEX_GUI_BUILD
-  - mkdir -p assets/bin/
-  - gsutil cp $STAGING/$VERUS_CLI_WINDOWS .
-  - unzip -qq Verus-CLI-Windows-v${VERUSCOIN_VERSION}.zip -d assets/bin/win64
-  - mv assets/bin/win64/verus-cli assets/bin/win64/verusd
-  - mv assets/bin/win64/verusd/komodod.exe assets/bin/win64/verusd/verusd.exe
- # - wget https://github.com/KomodoPlatform/komodo/releases/download/master-multios-${KOMODO_VERSION}/komodo_win_${KOMODO_VERSION}.zip
-  - wget https://github.com/KomodoPlatform/komodo/releases/download/beta-multios-0.3.3b-beta/komodo_windows_beta_0.3.3.zip
-#  - unzip komodo_win_${KOMODO_VERSION}.zip
-  - unzip komodo_windows_beta_0.3.3.zip
-#  - mv komodo_win_${KOMODO_VERSION}/* assets/bin/win64
-  - mv komodo_windows_beta_0.3.3/* assets/bin/win64
-  - strip -g  assets/bin/win64/komodod.exe && strip -g  assets/bin/win64/komodo-cli.exe && strip -g  assets/bin/win64/komodo-tx.exe
-  - rm Verus-CLI-Windows-v${VERUSCOIN_VERSION}.zip
-  #- rm komodo_win_${KOMODO_VERSION}.zip
-  - rm komodo_windows_beta_0.3.3.zip
-  - rm -rf __MACOSX
-  - rm -rf komodo_win_${KOMODO_VERSION}
-  - yarn install
+    -apt update && apt-get install mono-complete -y
+    - echo "$AUTH_KEY" > AUTH_KEY.json &&
+      gcloud auth activate-service-account
+      --key-file AUTH_KEY.json &&
+      rm AUTH_KEY.json
+    - if [ ${CI_COMMIT_REF_NAME} = "MichaelF-Dev" ]; then export BINARY_SOURCE="Komodo"; fi
+    - if [ -z "${UPSTREAM_CLI_BRANCH}" ]; then export
+      VERUS_CLI_WINDOWS="${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH}/Windows/Verus-CLI-Windows-v${VERUSCOIN_VERSION}.zip"
+      POST_COMMENT="${POST_COMMENT}Using ${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH} binaries.";
+      else
+      export POST_COMMENT="${POST_COMMENT}Using ${UPSTREAM_TRIGGER}/${UPSTREAM_CLI_BRANCH} binaries."; fi
+    - gsutil cp $STAGING/EasyDEX-GUI/master/$EASYDEX_GUI_BUILD .
+    - tar -xzf $EASYDEX_GUI_BUILD --directory gui/EasyDEX-GUI/react && rm $EASYDEX_GUI_BUILD
+    - mkdir -p assets/bin/
+    - gsutil cp $STAGING/$VERUS_CLI_WINDOWS .
+    - unzip -qq Verus-CLI-Windows-v${VERUSCOIN_VERSION}.zip -d assets/bin/win64
+    - mv assets/bin/win64/verus-cli assets/bin/win64/verusd
+    - mv assets/bin/win64/verusd/komodod.exe assets/bin/win64/verusd/verusd.exe
+   # - wget https://github.com/KomodoPlatform/komodo/releases/download/master-multios-${KOMODO_VERSION}/komodo_win_${KOMODO_VERSION}.zip
+    - wget https://github.com/KomodoPlatform/komodo/releases/download/beta-multios-0.3.3b-beta/komodo_windows_beta_0.3.3.zip
+  #  - unzip komodo_win_${KOMODO_VERSION}.zip
+    - unzip komodo_windows_beta_0.3.3.zip
+  #  - mv komodo_win_${KOMODO_VERSION}/* assets/bin/win64
+    - mv komodo_windows_beta_0.3.3/* assets/bin/win64
+    - strip -g  assets/bin/win64/komodod.exe && strip -g  assets/bin/win64/komodo-cli.exe && strip -g  assets/bin/win64/komodo-tx.exe
+    - rm Verus-CLI-Windows-v${VERUSCOIN_VERSION}.zip
+    #- rm komodo_win_${KOMODO_VERSION}.zip
+    - rm komodo_windows_beta_0.3.3.zip
+    - rm -rf __MACOSX
+    - rm -rf komodo_win_${KOMODO_VERSION}
+    - yarn install
   script:
   - yarn run dist-win
   #- cd build
@@ -152,29 +153,29 @@ build:mac:
   stage: build
   tags: ["High Sierra"]
   before_script:
-  - if [ ${CI_COMMIT_REF_NAME} = "MichaelF-Dev" ]; then export BINARY_SOURCE="Komodo"; fi
-  - if [ -z "${UPSTREAM_CLI_BRANCH}" ]; then export
-    VERUS_CLI_MACOS="${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH}/MacOS/Verus-CLI-MacOS-v${VERUSCOIN_VERSION}.tar.gz";
-    POST_COMMENT="${POST_COMMENT}Using ${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH} binaries.";
-    else
-    export POST_COMMENT="${POST_COMMENT}Using ${UPSTREAM_TRIGGER}/${UPSTREAM_CLI_BRANCH} binaries."; fi
-  - gsutil cp $STAGING/EasyDEX-GUI/master/$EASYDEX_GUI_BUILD .
-  - tar -xzf $EASYDEX_GUI_BUILD --directory gui/EasyDEX-GUI/react &&
-    rm $EASYDEX_GUI_BUILD
-  - gsutil cp $STAGING/$VERUS_CLI_MACOS .
-  - mkdir -p assets/bin/osx/verusd
-  - tar -xzf Verus-CLI-MacOS-v${VERUSCOIN_VERSION}.tar.gz --strip=1 --directory assets/bin/osx/verusd
-  - mv assets/bin/osx/verusd/komodod assets/bin/osx/verusd/verusd
-  # - wget https://github.com/KomodoPlatform/komodo/releases/download/master-multios-${KOMODO_VERSION}/komodo_osx_${KOMODO_VERSION}.tar.gz
-  - wget https://github.com/KomodoPlatform/komodo/releases/download/beta-multios-0.3.3b-beta/komodo_osx_beta_0.3.3b.tar.gz
- # - tar -xzvf komodo_osx_${KOMODO_VERSION}.tar.gz --strip=1 --directory assets/bin/osx
-  - tar -xzvf komodo_osx_beta_0.3.3b.tar.gz  --strip=1 --directory assets/bin/osx
-  - rm Verus-CLI-MacOS-v${VERUSCOIN_VERSION}.tar.gz
- # - rm komodo_osx_${KOMODO_VERSION}.tar.gz
-  - rm komodo_osx_beta_0.3.3b.tar.gz
-  - yarn install
+    - if [ ${CI_COMMIT_REF_NAME} = "MichaelF-Dev" ]; then export BINARY_SOURCE="Komodo"; fi
+    - if [ -z "${UPSTREAM_CLI_BRANCH}" ]; then export
+      VERUS_CLI_MACOS="${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH}/MacOS/Verus-CLI-MacOS-v${VERUSCOIN_VERSION}.tar.gz";
+      POST_COMMENT="${POST_COMMENT}Using ${BINARY_SOURCE}/${DEFAULT_VERUSCOIN_BRANCH} binaries.";
+      else
+      export POST_COMMENT="${POST_COMMENT}Using ${UPSTREAM_TRIGGER}/${UPSTREAM_CLI_BRANCH} binaries."; fi
+    - gsutil cp $STAGING/EasyDEX-GUI/master/$EASYDEX_GUI_BUILD .
+    - tar -xzf $EASYDEX_GUI_BUILD --directory gui/EasyDEX-GUI/react &&
+      rm $EASYDEX_GUI_BUILD
+    - gsutil cp $STAGING/$VERUS_CLI_MACOS .
+    - mkdir -p assets/bin/osx/verusd
+    - tar -xzf Verus-CLI-MacOS-v${VERUSCOIN_VERSION}.tar.gz --strip=1 --directory assets/bin/osx/verusd
+    - mv assets/bin/osx/verusd/komodod assets/bin/osx/verusd/verusd
+    # - wget https://github.com/KomodoPlatform/komodo/releases/download/master-multios-${KOMODO_VERSION}/komodo_osx_${KOMODO_VERSION}.tar.gz
+    - wget https://github.com/KomodoPlatform/komodo/releases/download/beta-multios-0.3.3b-beta/komodo_osx_beta_0.3.3b.tar.gz
+   # - tar -xzvf komodo_osx_${KOMODO_VERSION}.tar.gz --strip=1 --directory assets/bin/osx
+    - tar -xzvf komodo_osx_beta_0.3.3b.tar.gz  --strip=1 --directory assets/bin/osx
+    - rm Verus-CLI-MacOS-v${VERUSCOIN_VERSION}.tar.gz
+   # - rm komodo_osx_${KOMODO_VERSION}.tar.gz
+    - rm komodo_osx_beta_0.3.3b.tar.gz
+    - yarn install
   script:
-  - yarn run dist
+   - yarn run dist
  # - npm run create-installer-mac
  # - shasum -a 256 ${AGAMA_MACOS}.dmg > ${AGAMA_MACOS}.dmg.sha256
  # after_script:
@@ -195,19 +196,19 @@ build:mac:
   stage: deploy
   image: google/cloud-sdk:alpine
   dependencies:
-  - build:linux
-  - build:windows
-  - build:mac
+    - build:linux
+    - build:windows
+    - build:mac
   script:
-  - mkdir -p $CI_COMMIT_REF_NAME/Windows
-  - mkdir -p $CI_COMMIT_REF_NAME/Linux
-  - mkdir -p $CI_COMMIT_REF_NAME/MacOS
-  - cp $AGAMA_LINUX $CI_COMMIT_REF_NAME/Linux
-  - cp $AGAMA_WINDOWS $CI_COMMIT_REF_NAME/Windows
-  - cp $AGAMA_MACOS.dmg $CI_COMMIT_REF_NAME/MacOS
-  - echo $AUTH_KEY > AUTH_KEY.json
-  - gcloud auth activate-service-account --key-file AUTH_KEY.json
-  - gsutil rsync -r $CI_COMMIT_REF_NAME $STAGING/Agama/$CI_COMMIT_REF_NAME/
+    - mkdir -p $CI_COMMIT_REF_NAME/Windows
+    - mkdir -p $CI_COMMIT_REF_NAME/Linux
+    - mkdir -p $CI_COMMIT_REF_NAME/MacOS
+    - cp $AGAMA_LINUX $CI_COMMIT_REF_NAME/Linux
+    - cp $AGAMA_WINDOWS $CI_COMMIT_REF_NAME/Windows
+    - cp $AGAMA_MACOS.dmg $CI_COMMIT_REF_NAME/MacOS
+    - echo $AUTH_KEY > AUTH_KEY.json
+    - gcloud auth activate-service-account --key-file AUTH_KEY.json
+    - gsutil rsync -r $CI_COMMIT_REF_NAME $STAGING/Agama/$CI_COMMIT_REF_NAME/
   artifacts:
     paths:
   #   - ${AGAMA_LINUX}
