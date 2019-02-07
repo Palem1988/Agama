@@ -106,8 +106,8 @@ build:windows:
     - wget https://dl.winehq.org/wine-builds/Release.key
     - apt-key add Release.key
     - apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/' && apt update
-    - dpkg --add-architecture i386 
-    - apt-get install nodejs wine-development wine32-development winetricks  yarn  google-cloud-sdk -y
+    - dpkg --add-architecture i386
+    - apt-get install nodejs wine-development  winetricks  yarn  google-cloud-sdk -y
     - echo "$AUTH_KEY" > AUTH_KEY.json &&
       gcloud auth activate-service-account
       --key-file AUTH_KEY.json &&
