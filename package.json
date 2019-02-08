@@ -1,6 +1,6 @@
 {
-  "name": "Agama",
-  "productName": "Agama",
+  "name": "verus",
+  "productName": "Verus",
   "version": "0.5.6",
   "description": "Verus-Enhanced Agama Wallet Desktop App",
   "main": "main.js",
@@ -20,7 +20,9 @@
     "multicoin",
     "wallet",
     "spv",
-    "jumblr"
+    "jumblr",
+    "VRSC",
+    "veruscoin"
   ],
   "author": {
     "name": "Komodo Platform Team",
@@ -29,7 +31,7 @@
   },
   "license": "MIT",
   "build": {
-    "appId": "Agama",
+    "appId": "Verus",
     "asarUnpack": "assets/bin",
     "directories": {
       "buildResources": "assets"
@@ -78,7 +80,6 @@
       },
       "target": [
         "deb",
-        "tar.gz",
         "appimage",
         "snap"
       ]
