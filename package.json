@@ -77,10 +77,8 @@
         "Encoding": "UTF-8"
       },
       "target": [
-        "deb",
-        "tar.gz",
-        "appimage",
-        "snap"
+        "appimage"
+
       ]
     },
     "deb": {
