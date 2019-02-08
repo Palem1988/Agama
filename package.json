@@ -1,5 +1,5 @@
 {
-  "name": "Agama",
+  "name": "agama",
   "productName": "Agama",
   "version": "0.5.6",
   "description": "Verus-Enhanced Agama Wallet Desktop App",
@@ -30,7 +30,7 @@
   "license": "MIT",
   "build": {
     "appId": "Agama",
-    "asarUnpack": "assets/bin",
+    "asarUnpack": "**/assets/bin/*",
     "directories": {
       "buildResources": "assets"
     },
