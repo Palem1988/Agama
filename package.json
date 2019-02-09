@@ -33,9 +33,6 @@
     "asarUnpack": [
       "node_modules"
     ],
-    "directories": {
-      "buildResources": "assets"
-    },
     "files": [
       "**/*",
       "!assets{/*}",
@@ -50,7 +47,7 @@
       "!gui/EasyDEX/react/src${/*}",
       "!gui/EasyDEX/react/www${/*}"
     ],
-    "extraResources":
+    "extraFiles":
     [
       "assets"
     ],
