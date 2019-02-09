@@ -30,13 +30,13 @@
   "license": "MIT",
   "build": {
     "appId": "Agama",
-    "smartUnpack": true,
+    "asar": false,
     "directories": {
       "buildResources": "assets"
     },
     "files": [
       "**/*",
-      "!buildscripts${/*}",
+      "!assets{/*}",
       "!test${/*}",
       "!windeps${/*}",
       "!.git*",
@@ -47,6 +47,10 @@
       "!gui/EasyDEX/react/node_modules${/*}",
       "!gui/EasyDEX/react/src${/*}",
       "!gui/EasyDEX/react/www${/*}"
+    ],
+    "extraResources":
+    [
+      "assets"
     ],
     "mac": {
       "icon": "assets/icons/agama_icons/agama_app_icon.icns",
